@@ -1,4 +1,5 @@
 import torch
+import random
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
@@ -212,6 +213,18 @@ def mixup_ls_fit(model, train_loss, test_loss, optimizer, epochs, train_data, va
         print('-------------------------------')
     print("Done!")
     return list_train_acc, list_val_acc
+
+'''random seed'''
+def torch_fix_seed(seed=0):
+    # Python random
+    random.seed(seed)
+    # Numpy
+    np.random.seed(seed)
+    # Pytorch
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    # torch.backends.cudnn.deterministic = True
+    # torch.use_deterministic_algorithms = True
 
 
 
