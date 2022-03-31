@@ -51,7 +51,7 @@ def get_dl(
     transform=tt.Compose([tt.ToTensor(), tt.Normalize(0.5, 0.5)])):
     
     dev = "cuda" if torch.cuda.is_available() else "cpu"
-    data_path = '/content/drive/MyDrive/Colab/qmul/NN/projects/data/' #change your own file path
+    data_path = '/content/drive/MyDrive/QMUL/NN/data/' 
     df = pd.read_pickle(data_path+data+'.pkl')
     ds = FER2013Dataset(df, transform=transform)
     dl = DataLoader(ds, batch_size=bs, shuffle=shuffle)

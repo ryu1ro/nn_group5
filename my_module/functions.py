@@ -10,7 +10,7 @@ from torch.autograd import Variable
 
 '''Figures'''
 
-figure_path = '/content/drive/MyDrive/Colab/qmul/NN/projects/figures/' #change your own file path
+figure_path = '/content/drive/MyDrive/QMUL/NN/figures/' 
 def plot_acc(train_acc, val_acc, epochs, savefig=False, name='name'):
   plt.plot(np.arange(1,epochs+1), [100*i for i in train_acc], label='training')
   plt.plot(np.arange(1,epochs+1), [100*i for i in val_acc], label='validation')
