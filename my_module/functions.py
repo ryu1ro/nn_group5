@@ -226,26 +226,10 @@ def torch_fix_seed(seed=0):
     # torch.backends.cudnn.deterministic = True
     # torch.use_deterministic_algorithms = True
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+'''weighted CrossEntropyLoss'''
+def make_weight(dl, dev):
+    label = np.array([i for _, i in dl.dataset])
+    label_weight = np.array([np.sum(label==i) for i in range(7)])
+    label_weight = 1/label_weight
+    label_weight = label_weight/np.sum(label_weight)
+    return torch.from_numpy(label_weight.astype(np.float32)).clone().to(dev)
