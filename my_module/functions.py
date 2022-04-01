@@ -85,19 +85,45 @@ def test_loop(dataloader, model, loss_fn):
     # print(f"Validation Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
     return correct
 
-def fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
+# def fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
+#     list_train_acc = []
+#     list_val_acc = []
+#     for t in range(epochs):
+#         print(f"Epoch {t+1}")
+#         train_acc = train_loop(train_data, model, loss, optimizer, print_loss=print_loss)
+#         val_acc = test_loop(val_data, model, loss)
+#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
+#         list_train_acc.append(train_acc)
+#         list_val_acc.append(val_acc)
+#         print('-------------------------------')
+#     print("Done!")
+#     return list_train_acc, list_val_acc
+
+def fit(
+    model, 
+    optimizer, 
+    epochs, 
+    train_data, 
+    val_data, 
+    train_func=train_loop,
+    test_func=test_loop,
+    train_loss=nn.CrossEntropyLoss(),
+    test_loss=nn.CrossEntropyLoss(),
+    print_loss=False):
+
     list_train_acc = []
     list_val_acc = []
     for t in range(epochs):
         print(f"Epoch {t+1}")
-        train_acc = train_loop(train_data, model, loss, optimizer, print_loss=print_loss)
-        val_acc = test_loop(val_data, model, loss)
+        train_acc = train_func(train_data, model, train_loss, optimizer, print_loss=print_loss)
+        val_acc = test_func(val_data, model, test_loss)
         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
         list_train_acc.append(train_acc)
         list_val_acc.append(val_acc)
         print('-------------------------------')
     print("Done!")
     return list_train_acc, list_val_acc
+
 
 '''label smoothing'''
 def linear_combination(x, y, epsilon):
@@ -176,43 +202,43 @@ def mixup_train_loop(
     correct /= size
     return correct
 
-def mixup_fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
-    list_train_acc = []
-    list_val_acc = []
-    for t in range(epochs):
-        print(f"Epoch {t+1}")
-        train_acc = mixup_train_loop(
-          train_data, 
-          model, 
-          loss, 
-          optimizer, 
-          print_loss=print_loss)
-        val_acc = test_loop(val_data, model, loss)
-        print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
-        list_train_acc.append(train_acc)
-        list_val_acc.append(val_acc)
-        print('-------------------------------')
-    print("Done!")
-    return list_train_acc, list_val_acc
+# def mixup_fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
+#     list_train_acc = []
+#     list_val_acc = []
+#     for t in range(epochs):
+#         print(f"Epoch {t+1}")
+#         train_acc = mixup_train_loop(
+#           train_data, 
+#           model, 
+#           loss, 
+#           optimizer, 
+#           print_loss=print_loss)
+#         val_acc = test_loop(val_data, model, loss)
+#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
+#         list_train_acc.append(train_acc)
+#         list_val_acc.append(val_acc)
+#         print('-------------------------------')
+#     print("Done!")
+#     return list_train_acc, list_val_acc
 
-def mixup_ls_fit(model, train_loss, test_loss, optimizer, epochs, train_data, val_data, print_loss=False):
-    list_train_acc = []
-    list_val_acc = []
-    for t in range(epochs):
-        print(f"Epoch {t+1}")
-        train_acc = mixup_train_loop(
-          train_data, 
-          model, 
-          train_loss, 
-          optimizer, 
-          print_loss=print_loss)
-        val_acc = test_loop(val_data, model, test_loss)
-        print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
-        list_train_acc.append(train_acc)
-        list_val_acc.append(val_acc)
-        print('-------------------------------')
-    print("Done!")
-    return list_train_acc, list_val_acc
+# def mixup_ls_fit(model, train_loss, test_loss, optimizer, epochs, train_data, val_data, print_loss=False):
+#     list_train_acc = []
+#     list_val_acc = []
+#     for t in range(epochs):
+#         print(f"Epoch {t+1}")
+#         train_acc = mixup_train_loop(
+#           train_data, 
+#           model, 
+#           train_loss, 
+#           optimizer, 
+#           print_loss=print_loss)
+#         val_acc = test_loop(val_data, model, test_loss)
+#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
+#         list_train_acc.append(train_acc)
+#         list_val_acc.append(val_acc)
+#         print('-------------------------------')
+#     print("Done!")
+#     return list_train_acc, list_val_acc
 
 '''random seed'''
 def torch_fix_seed(seed=0):
