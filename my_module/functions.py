@@ -82,22 +82,7 @@ def test_loop(dataloader, model, loss_fn):
 
     test_loss /= num_batches
     correct /= size
-    # print(f"Validation Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
     return correct
-
-# def fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
-#     list_train_acc = []
-#     list_val_acc = []
-#     for t in range(epochs):
-#         print(f"Epoch {t+1}")
-#         train_acc = train_loop(train_data, model, loss, optimizer, print_loss=print_loss)
-#         val_acc = test_loop(val_data, model, loss)
-#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
-#         list_train_acc.append(train_acc)
-#         list_val_acc.append(val_acc)
-#         print('-------------------------------')
-#     print("Done!")
-#     return list_train_acc, list_val_acc
 
 def fit(
     model, 
@@ -202,44 +187,6 @@ def mixup_train_loop(
     correct /= size
     return correct
 
-# def mixup_fit(model, loss, optimizer, epochs, train_data, val_data, print_loss=False):
-#     list_train_acc = []
-#     list_val_acc = []
-#     for t in range(epochs):
-#         print(f"Epoch {t+1}")
-#         train_acc = mixup_train_loop(
-#           train_data, 
-#           model, 
-#           loss, 
-#           optimizer, 
-#           print_loss=print_loss)
-#         val_acc = test_loop(val_data, model, loss)
-#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
-#         list_train_acc.append(train_acc)
-#         list_val_acc.append(val_acc)
-#         print('-------------------------------')
-#     print("Done!")
-#     return list_train_acc, list_val_acc
-
-# def mixup_ls_fit(model, train_loss, test_loss, optimizer, epochs, train_data, val_data, print_loss=False):
-#     list_train_acc = []
-#     list_val_acc = []
-#     for t in range(epochs):
-#         print(f"Epoch {t+1}")
-#         train_acc = mixup_train_loop(
-#           train_data, 
-#           model, 
-#           train_loss, 
-#           optimizer, 
-#           print_loss=print_loss)
-#         val_acc = test_loop(val_data, model, test_loss)
-#         print(f"Train accuracy: {(100*train_acc):>0.1f}% \nVal accuracy  : {(100*val_acc):>0.1f}%")
-#         list_train_acc.append(train_acc)
-#         list_val_acc.append(val_acc)
-#         print('-------------------------------')
-#     print("Done!")
-#     return list_train_acc, list_val_acc
-
 '''random seed'''
 def torch_fix_seed(seed=0):
     # Python random
@@ -252,10 +199,10 @@ def torch_fix_seed(seed=0):
     # torch.backends.cudnn.deterministic = True
     # torch.use_deterministic_algorithms = True
 
-'''weighted CrossEntropyLoss'''
-def make_weight(dl, dev):
-    label = np.array([i for _, i in dl.dataset])
-    label_weight = np.array([np.sum(label==i) for i in range(7)])
-    label_weight = 1/label_weight
-    label_weight = label_weight/np.sum(label_weight)
-    return torch.from_numpy(label_weight.astype(np.float32)).clone().to(dev)
+# '''weighted CrossEntropyLoss'''
+# def make_weight(dl, dev):
+#     label = np.array([i for _, i in dl.dataset])
+#     label_weight = np.array([np.sum(label==i) for i in range(7)])
+#     label_weight = 1/label_weight
+#     label_weight = label_weight/np.sum(label_weight)
+#     return torch.from_numpy(label_weight.astype(np.float32)).clone().to(dev)
