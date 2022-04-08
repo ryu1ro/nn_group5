@@ -9,5 +9,5 @@ https://www.kaggle.com/c/challenges-in-representation-learning-facial-expression
 ## Models
 - Base_CNN
 - Base_CNN + dropuot
-- ResNet(12 layers)
-- ResNet(34 layers)
+- ResNet12
+- ResNet34
